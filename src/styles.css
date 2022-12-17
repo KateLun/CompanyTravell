@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-.btn-primary{
+.btn-primary {
     @apply border border-solid border-green-800 px-6 py-2 rounded-md hover:bg-green-800 hover:text-white transition-all duration-300;
+}
+
+.flex-blockmini {
+    @apply mt-3 text-sm flex items-start
 }
