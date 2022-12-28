@@ -9,7 +9,7 @@
         "@parcel/transformer-sass": "2.8.0",
         "parcel": "^2.8.0",
         "parcel-reporter-static-files-copy": "^1.4.0",
-        "prettier": "2.8.0"
+        "prettier": "^2.8.1"
     },
     "dependencies": {
         "date-fns": "^2.29.3",

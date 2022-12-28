@@ -1,20 +1,40 @@
+import { format, differenceInDays} from "date-fns"
+import { ru } from "date-fns/locale"
+const option = {
+    locale: ru
+}
+const pattern = "dd.MM.yyy" //новый формат даты
+
 async function makeTours() {
     const responce = await fetch(
         'https://www.bit-by-bit.ru/api/student-projects/tours'
     )
-    const tours = await responce.json()
-
+    const tours = await responce.json() 
     console.log(tours)
+    return tours
+}
 
-    const container = document.getElementById('container')
-    tours.forEach((tour) => {
-    container.innerHTML += `
+function checkCity(tours) {
+    let noCity = ' '
+    tours.forEach(tour => {
+        if (tour.city === null || tour.city === undefined) {
+        return tour.city = noCity
+    } 
+})
+}
+
+function renderTours(tours) {
+    document.getElementById('container').innerHTML = ''
+    tours.forEach(tour => {
+        const duration = differenceInDays(new Date(tour.endTime), new Date(tour.startTime))
+        checkCity(tours)
+        document.getElementById('container').innerHTML += `
         <div class="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col justify-between">
             <img class="h-72 w-full" src="${tour.image}" />
 
             <div class="p-6">
                 <div>
-                    <p class="text-green-800 font-semibold mt-3 text-xl">${tour.country}</p>
+                    <p class="text-gray-800 opacity-80 font-semibold mt-3 text-xl">${tour.country}</p>
                     <p class="text-grey-500 mt-3">${tour.city}</p>
 
                     <div class="mt-3 text-grey-500 text-sm flex items-start">
@@ -39,7 +59,7 @@ async function makeTours() {
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
                         </svg>
-                        <span class="ml-1">${tour.startTime}-${tour.endTime}</span>
+                        <span class="ml-1">${format(new Date(tour.startTime), pattern, option)}-${format(new Date(tour.endTime), pattern, option)} (${duration} дней)</span>
                     </div>
                 </div>
             </div>
@@ -50,8 +70,165 @@ async function makeTours() {
             </div>
 
         </div>
-                
-    `})
+    `});
 }
 
-makeTours()
+function filterByCountry(tours, country) {
+    if (country) {
+        const filteredTours = tours.filter((tour) => {
+            return tour.country === country
+        })
+        renderTours(filteredTours)
+        console.log(filteredTours)
+    } else {
+        renderTours(tours)
+    }
+    closeDropdownCountry()
+}
+
+function filterByRating(tours, rating) {
+    if (rating) {
+        const filteredTours = tours.filter((tour) => {
+            return tour.rating >= rating
+        })
+        renderTours(filteredTours)
+    } else {
+        renderTours(tours)
+    }
+    closeDropdownRating()
+}
+
+function filterByPrice(tours) {
+    const minPrice = document.getElementById('minPrice').value
+    const maxPrice = document.getElementById('maxPrice').value
+    
+        const filteredTours = tours.filter((tour) => {
+            if (minPrice && maxPrice) {
+                return tour.price <= maxPrice && tour.price >= minPrice
+            } else if (maxPrice) {
+                return tour.price <= maxPrice
+            } else if (minPrice) {
+                return tour.price >= minPrice
+            } else {
+                renderTours(tours)
+            }
+        })
+        console.log(filteredTours)
+        renderTours(filteredTours)
+
+        document.getElementById('minPrice').value = ""
+        document.getElementById('maxPrice').value = ""
+        closeDropdownPrice()
+} 
+
+function filterByDuration(tours) {
+    const minDay = document.getElementById('minDay').value
+    const maxDay = document.getElementById('maxDay').value
+    
+        const filteredTours = tours.filter((tour) => {
+            const duration = differenceInDays(new Date(tour.endTime), new Date(tour.startTime))
+            if (minDay && maxDay) {
+                return duration <= maxDay && duration >= minDay
+            } else if (maxDay) {
+                return duration <= maxDay
+            } else if (minDay) {
+                return duration >= minDay
+            } else {
+                renderTours(tours)
+            }
+        })
+        console.log(filteredTours)
+        renderTours(filteredTours)
+
+        document.getElementById('minDay').value = ""
+        document.getElementById('maxDay').value = ""
+        closeDropdowDuration()
+} 
+
+// Для блока фильтр по стране (index or id??? html-коллекции)
+function openDropdownCountry() {
+    let dropdown = document.getElementById('myDropdownCountry')
+    if (dropdown.style.display = "none") {
+        dropdown.style.display = "flex"
+    }
+}
+function closeDropdownCountry() {
+    let dropdown = document.getElementById('myDropdownCountry')
+    if (dropdown.style.display = "flex") {
+        dropdown.style.display = "none"
+    } 
+}
+window.onclick = closeDropdownCountry() // чтобы дропдаун закрывался при клике на страницуdate-fns, а не только при повторном клике на кнопку
+
+// Для блока фильтр по рейтингу
+function openDropdownRating() {
+    let dropdown = document.getElementById('myDropdownRating')
+    if (dropdown.style.display = "none") {
+        dropdown.style.display = "flex"
+    }
+}
+function closeDropdownRating() {
+    let dropdown = document.getElementById('myDropdownRating')
+    if (dropdown.style.display = "flex") {
+        dropdown.style.display = "none"
+    } 
+}
+
+// Для блока фильтр по цене
+function openDropdownPrice() {
+    let dropdown = document.getElementById('myDropdownPrice')
+    if (dropdown.style.display = "none") {
+        dropdown.style.display = "flex"
+    }
+}
+function closeDropdownPrice() {
+    let dropdown = document.getElementById('myDropdownPrice')
+    if (dropdown.style.display = "flex") {
+        dropdown.style.display = "none"
+    } 
+}
+
+// Для блока фильтр по продолжительности
+function openDropdownDuration() {
+    let dropdown = document.getElementById('myDropdownDuration')
+    if (dropdown.style.display = "none") {
+        dropdown.style.display = "flex"
+    }
+}
+function closeDropdowDuration() {
+    let dropdown = document.getElementById('myDropdownDuration')
+    if (dropdown.style.display = "flex") {
+        dropdown.style.display = "none"
+    } 
+}
+
+async function init() {
+    const tours = await makeTours()
+    renderTours(tours)
+
+    document.getElementById('btn-country').addEventListener('click', () => openDropdownCountry())
+    document.getElementById('btn-rating').addEventListener('click', () => openDropdownRating())
+    document.getElementById('btn-price').addEventListener('click', () => openDropdownPrice())
+    document.getElementById('btn-duration').addEventListener('click', () => openDropdownDuration())
+
+    document.getElementById('all').addEventListener('click', () => filterByCountry(tours))
+    document.getElementById('thailand').addEventListener('click', () => filterByCountry(tours, 'Тайланд'))
+    document.getElementById('egypt').addEventListener('click', () => filterByCountry(tours, 'Египет'))
+    document.getElementById('cyprus').addEventListener('click', () => filterByCountry(tours, 'Кипр'))
+    document.getElementById('maldives').addEventListener('click', () => filterByCountry(tours, 'Мальдивы'))
+    document.getElementById('indonesia').addEventListener('click', () => filterByCountry(tours, 'Индонезия'))
+    document.getElementById('mexico').addEventListener('click', () => filterByCountry(tours, 'Мексика'))
+    document.getElementById('tanzania').addEventListener('click', () => filterByCountry(tours, 'Танзания'))
+
+    document.getElementById('rating7').addEventListener('click', () => filterByRating(tours, 7))
+    document.getElementById('rating8').addEventListener('click', () => filterByRating(tours, 8))
+    document.getElementById('rating9').addEventListener('click', () => filterByRating(tours, 9))
+
+    document.getElementById('btnPrice').addEventListener('click', () => filterByPrice(tours))
+
+    document.getElementById('btnDuration').addEventListener('click', () => filterByDuration(tours))
+}
+
+init()
+
+

@@ -9,23 +9,87 @@
     </head>
 
     <body>
-        <div class="bg-emerald-50">
-            <div class="max-w-5xl mx-auto py-16 px-12 lg:px-0">
-                <div class="flex justify-end gap-6">
-                    <button class="btn-primary">Избранное</button>
-                    <button class="btn-primary">Добавить тур</button>
-                </div>
-                <div class="text-center mt-6">
-                    <h1 class="text-4xl font-bold">
-                        Экскурсионные туры
-                    </h1>
-                    <p class="mt-4 text-grey-400 text-xl">
-                        Мы живем путешествиями!<br />
-                        Предлагаем Вам самые актуальные туры по всему миру.
-                    </p>
-                </div>
+        <div id="backgroung-main">
+            <div id="backgroung-main_color">
+                <div class="max-w-5xl mx-auto py-16 px-12 lg:px-0">
+                    <div class="flex justify-end gap-6">
+                        <button class="btn-primary">Избранное</button>
+                        <button class="btn-primary">Добавить тур</button>
+                    </div>
+                    <div class="text-center mt-20">
+                        <h1 class="text-gray-800 opacity-80 italic text-2xl lg:text-4xl font-bold">
+                            Экскурсионные туры
+                        </h1>
+                        <p class="mt-10 text-slate-600 text-xl lg:text-2xl">
+                            Мы покажем вам мир!<br />
+                            Коллекция солнечных туров
+                        </p>
+                    </div>
+                </div>    
+            </div>  
+        </div>  
 
-                <div id="container" class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        <div class="bg-emerald-50">
+            <div class="max-w-5xl mx-auto px-4 sm:px-4 ">
+                <h1 class=" mx-aotu pt-10 text-slate-600 text-2xl">Подобрать тур:</h1>
+
+                <div class="mt-6 mb-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"> <!--блок фильтрации-->
+
+                    <div class="dropdown"> <!--по стране-->
+                        <button class="btn-filter" id="btn-country">По стране</button>
+                        <div id="myDropdownCountry" class="dropdown-content">
+                            <a href="#" class="prm-a" id="all">Все страны</a>
+                            <a href="#" class="prm-a" id="thailand">Тайланд</a>
+                            <a href="#" class="prm-a" id="egypt">Египет</a>
+                            <a href="#" class="prm-a" id="cyprus">Кипр</a>
+                            <a href="#" class="prm-a" id="maldives">Мальдивы</a>
+                            <a href="#" class="prm-a" id="indonesia">Индонезия</a>
+                            <a href="#" class="prm-a" id="mexico">Мексика</a>
+                            <a href="#" class="prm-a" id="tanzania">Танзания</a>
+                        </div>
+                    </div> 
+
+                    <div class="dropdown">  <!--по рейтингу-->
+                        <button class="btn-filter" id="btn-rating">По рейтингу</button>
+                        <div id="myDropdownRating" class="dropdown-content">
+                            <div class="">
+                                <input type="radio" id="rating7" name="radio" class="" />
+                                <label for="rating7" class="label">От 7 и выше</label>
+                            </div>
+                            <div class="">
+                                <input type="radio" id="rating8" name="radio" class="" />
+                                <label for="rating8" class="label">От 8 и выше</label>
+                            </div>
+                            <div class="">
+                                <input type="radio" id="rating9" name="radio" class="" />
+                                <label for="rating9" class="label">От 9 и выше</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dropdown"> <!--по цене-->
+                        <button class="btn-filter" id="btn-price">По цене</button>
+                        <div id="myDropdownPrice" class="dropdown-content">
+                            <input type="number" placeholder="Min, руб." id="minPrice" class="input"/>
+                            <span class="mx-2 text-center" aria-hidden="true">&ndash;</span>
+                            <input type="number" placeholder="Max, руб." id="maxPrice" class="input"/>
+                            <button id="btnPrice" class="btn-ok">OK</button>
+                        </div>
+                    </div> 
+
+                    <div class="dropdown"> <!--по продолжительности-->
+                        <button class="btn-filter" id="btn-duration">По продолжительности</button>
+                        <div id="myDropdownDuration" class="dropdown-content">
+                            <input type="number" placeholder="От ... дней" id="minDay" class="input"/>
+                            <span class="mx-2 text-center" aria-hidden="true">&ndash;</span>
+                            <input type="number" placeholder="До ... дней" id="maxDay" class="input"/>
+                            <button id="btnDuration" class="btn-ok">OK</button>
+                        </div>
+                    </div>
+
+                </div> 
+
+                <div id="container" class="mt-12 pb-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 px-4 gap-8"></div>
 
                 <!---<div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     

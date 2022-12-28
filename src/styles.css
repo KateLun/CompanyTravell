@@ -3,9 +3,50 @@
 @tailwind utilities;
 
 .btn-primary {
-    @apply border border-solid border-green-800 px-6 py-2 rounded-md hover:bg-green-800 hover:text-white transition-all duration-300;
+    @apply border border-solid border-yellow-600 px-6 py-2 rounded-md hover:bg-yellow-600 hover:text-white transition-all duration-300;
+}
+.btn-filter {
+    @apply border border-solid border-blue-800 px-6 py-1 rounded-md hover:bg-blue-800 hover:text-white transition-all duration-300;
+}
+.btn-ok {
+    @apply border px-2 py-1 rounded-md hover:bg-blue-800 hover:text-white transition-all duration-300;
+}
+.flex-blockmini {
+    @apply mt-3 text-sm flex items-start;
+}
+.prm-a {
+    @apply hover:bg-blue-200 pl-2 px-1 transition-all duration-300;
+}
+.input {
+    @apply h-6 mx-2 text-center;
 }
 
-.flex-blockmini {
-    @apply mt-3 text-sm flex items-start
+#backgroung-main{
+    background-image: url('/images/background-foto.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 500px;
+}
+#backgroung-main_color{
+    background: rgba(219, 214, 205, 0.272);
+    height: 500px;
+}
+.dropdown {
+    position: relative;
+}
+#myDropdownCountry, #myDropdownRating, #myDropdownPrice, #myDropdownDuration {
+    display: none;
+}
+#myDropdownPrice, #myDropdownDuration {
+    width: 120px;
+}
+.dropdown-content {
+    flex-direction: column;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 140px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-bottom-right-radius: 15px;
+    z-index: 1;
 }
