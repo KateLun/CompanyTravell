@@ -88,6 +88,7 @@ function renderTours(tours) {
 function checkFav() {
     if (favTours.length != 0) {
         renderFavs(favTours)
+        workJson()
     } else {
 
         document.getElementById("container").style.display = "flex"
@@ -98,7 +99,7 @@ function checkFav() {
       <p class="text-slate-600 text-2xl">Пока что тут пусто :( </p>
             </div>
         `
-
+        workJson()
     }
 }
 
@@ -162,6 +163,12 @@ function renderFavs(tours) {
 
 // избранные туры
 let favTours = [];
+
+function workJson() {
+    const toursJson = JSON.stringify(favTours)
+    localStorage.setItem('favTours', toursJson)
+}
+
 async function favourites(id) {
     const response = await fetch('https://www.bit-by-bit.ru/api/student-projects/tours');
     const tours = await response.json();
@@ -175,24 +182,27 @@ async function favourites(id) {
             tours.forEach((tour) => {
                 if (id === tour.id) {
                     favTours.push(tour);
+                    workJson()
                 }
             })
         } else {
             let index = favTours.indexOf(result);
             favTours.splice(index, 1);
-            // renderTours(favTours)
             document.getElementById(`favDelete-` + id).style.display = "none"
             document.getElementById(`favAdd-` + id).style.display = "flex"
+            workJson()
         }
 
     } else {
         tours.forEach((tour) => {
             if (id === tour.id) {
                 favTours.push(tour);
+                workJson()
             }
         })
     }
     console.log(favTours)
+    workJson()
 }
 
 function favDel(id) {
@@ -211,6 +221,7 @@ function favDel(id) {
         </div>
     `
     }
+    workJson()
 }
 
 function filterByCountry(tours, country) {
@@ -346,6 +357,10 @@ function closeDropdowDuration() {
     }
 }
 
+const toursJson = localStorage.getItem('favTours')
+if (toursJson) {
+    favTours = JSON.parse(toursJson)
+}
 
 async function init() {
     const tours = await makeTours()
