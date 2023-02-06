@@ -4,6 +4,7 @@ import { ru } from "date-fns/locale"
 const option = {
     locale: ru
 }
+import swal from "sweetalert"
 const pattern = "dd.MM.yyy" //новый формат даты
 
 async function makeTours() {
@@ -27,6 +28,7 @@ function checkCity(tour) {
 
 function renderTours(tours) {
     document.getElementById('container').innerHTML = ' '
+  
     if (tours.length === 0) {
         document.getElementById('container').innerHTML = 'Нет туров'
     } else {
@@ -195,11 +197,14 @@ async function openModal(id) {
 
     document.getElementById('booking-modal').style.display = 'flex'
 
-    const tour = tours.find(b => b.id === id) //находим тур: проходимся по массиву и ищем тур, у которой id = id что мы передали при нажатии
-   
+    const currentTour = tours.find(b => b.id === id) //находим тур: проходимся по массиву и ищем тур, у которой id = id что мы передали при нажатии
+    if (id) {
         document.getElementById('tour-info').innerHTML = ' '
-
-                document.getElementById('tour-info').innerHTML += `
+        tours.forEach(tour => {
+            const duration = differenceInDays(new Date(tour.endTime), new Date(tour.startTime))
+            const city = checkCity(tour)
+            if (currentTour === tour) {
+            document.getElementById('tour-info').innerHTML += `
                 
                 <div class="flex flex-col justify-between py-2 px-4">
                     <img class="h-52 w-full rounded-lg" src="${tour.image}" />
@@ -234,9 +239,10 @@ async function openModal(id) {
                         </div>
                     </div>
                 </div>`
-                let currentTourId = id
-        
-     
+            let currentTourId = id
+            }
+        })
+    }
 }
 
 document.getElementById('booking-tour').addEventListener('click', sendForm);
@@ -262,12 +268,19 @@ async function sendForm(ev) {
         method: "POST",
         body: JSON.stringify(params)
     })
-    let data = await response.json()
-    console.log(data)
+    //let data = await response.json()
     
-};
+    try {
+        let data = await response.json()
+        console.log(data)
 
-
+        if (data.length > 0) {
+            swal("Поздравляем", "Вы успешно забронировали тур", "success")
+        }
+    } catch {
+        swal("Произошла ошибка", "Повторите попытку", "error")
+    }
+}
 
 async function init() {
     const tours = await makeTours()
