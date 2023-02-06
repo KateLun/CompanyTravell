@@ -13,8 +13,8 @@
             <div id="backgroung-main_color">
                 <div class="max-w-5xl mx-auto py-16 px-12 lg:px-0">
                     <div class="flex justify-end gap-6">
+                        <button class="btn-primary">Все туры</button>
                         <button class="btn-primary">Избранное</button>
-                        <button class="btn-primary">Добавить тур</button>
                     </div>
                     <div class="text-center mt-20">
                         <h1 class="text-gray-800 opacity-80 italic text-2xl lg:text-4xl font-bold">
@@ -29,7 +29,7 @@
             </div>  
         </div>  
 
-        <div class="bg-emerald-50">
+        <div class="bg-emerald-50 h-100%">
             <div class="max-w-5xl mx-auto px-4 sm:px-4 ">
                 <h1 class=" mx-aotu pt-10 text-slate-600 text-2xl">Подобрать тур:</h1>
 
@@ -90,6 +90,39 @@
                 </div> 
 
                 <div id="container" class="mt-12 pb-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 px-4 gap-8"></div>
+
+                <!--модальное окно, бронирование тура-->
+                <div class="bg-gray-300 bg-opacity-90 w-100% hidden justify-center items-center fixed top-0 bottom-0 right-0 left-0 overflow-auto" id="booking-modal"> 
+                   
+                    <div class="bg-slate-100 w-60% m-auto shadow-lg rounded-lg overflow-hidden pt-26 flex flex-col">
+                       <div class="flex justify-end">
+                            <button type="sumbit" class="relative top-2 right-2"  id="close-modal-button">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hover:scale-125 transition-all duration-300">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                       </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div id="tour-info"></div> <!-- информация о выбранном туре -->
+
+                            <form id="form" action="#" method="post" target="_blank" > <!--форма для заполнения пользователем-->
+                                <div class="flex flex-col text-slate-700 items-stretch px-8 pb-6 w-full ">
+                                    <p class="text-slate-700 text-lg pb-2">Заполните поля:</p>
+    
+                                    <input class="input-booking" type="text" placeholder="Фамилия Имя" id="name" required oninvalid="this.setCustomValidity('Пожалуйста, заполните это поле!')" oninput="setCustomValidity('')">
+                                    <input class="input-booking" type="email" placeholder="Ваша почта" id="email" required oninvalid="this.setCustomValidity('Пожалуйста, заполните это поле!')" oninput="setCustomValidity('')">
+                                    <input class="input-booking" type="tel"  placeholder="Ваш номер телефона" id="phone" required oninvalid="this.setCustomValidity('Пожалуйста, заполните это поле!')" oninput="setCustomValidity('')">
+                                    <textarea class="input-booking h-8" style="height:100px" placeholder="Ваш комментарий" id="comment"></textarea>
+    
+                                    <button class="btn-primary w-30 m-auto mx-3" id="booking-tour">Отправить</button>
+                                </div>
+    
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
 
                 <!---<div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     

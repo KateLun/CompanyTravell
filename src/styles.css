@@ -20,6 +20,9 @@
 .input {
     @apply h-6 mx-2 text-center;
 }
+.input-booking {
+    @apply text-slate-700 text-sm border mb-4 px-2 py-2 rounded-lg outline-yellow-600;
+}
 
 #backgroung-main{
     background-image: url('/images/background-foto.jpg');
