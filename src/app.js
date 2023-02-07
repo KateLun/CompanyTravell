@@ -239,7 +239,7 @@ async function openModal(id) {
                         </div>
                     </div>
                 </div>`
-            let currentTourId = id
+            currentTourId = id
             }
         })
     }
@@ -268,14 +268,15 @@ async function sendForm(ev) {
         method: "POST",
         body: JSON.stringify(params)
     })
-    //let data = await response.json()
+    
     
     try {
         let data = await response.json()
-        console.log(data)
+        //console.log(data)
 
-        if (data.length > 0) {
+        if (data) {
             swal("Поздравляем", "Вы успешно забронировали тур", "success")
+            closeModal()
         }
     } catch {
         swal("Произошла ошибка", "Повторите попытку", "error")
